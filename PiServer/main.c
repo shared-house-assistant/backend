@@ -15,6 +15,22 @@ const int DEFAULT_PORT = 101010;
  * Author: dla507
  */
 
+void setup_server(const int port) {
+  int soc = get_listening_socket(port);
+
+  if (soc < 0) {
+    fprintf(stderr, "Error getting listening socket.\n");
+    exit(1);
+  } 
+
+  if (service_gate_socket(soc) != 0) {
+    fprintf(stderr, "Error processing socket.\n");
+    exit(1);
+  }
+
+  exit(0);
+}
+
 int main(int argc, char **argv) {
   if (argc == 1) {
     fprintf(stderr, "Starting pi server on default port %d.\n", DEFAULT_PORT);
@@ -42,18 +58,3 @@ int main(int argc, char **argv) {
   exit(0);
 }
 
-void setup_server(const int port) {
-  int soc = get_listening_socket(port);
-
-  if (soc < 0) {
-    fprintf(stderr, "Error getting listening socket.\n");
-    exit(1);
-  } 
-
-  if (service_gate_socket(soc) != 0) {
-    fprintf(stderr, "Error processing socket.\n");
-    exit(1);
-  }
-
-  exit(0);
-}
