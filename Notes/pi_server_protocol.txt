@@ -1,3 +1,5 @@
+This is all assuming the server will be running on private network. If we rent a server + get a domain name we should just use SSL and a self signed certificate.
+
 Pis will store a token. This will identify them to the server and will
 associate the pi with a house and room (after setup). This will prevent needing to
 re setup the system in case of power failure, broken connection etc.
@@ -12,9 +14,12 @@ When connecting to the server for the first time, PI sends ID number. Server goe
 
 After this, server knows which house/account the pi is associated with.
 
-conceptual protocol (assumes secure connection, authenticated server(+ pi?)
-Pi -> Server: token || ID (make tokens start with 1, IDs with 0)
-Server -> Pi: Ack (&& token if new)
-Pi -> Server: <data> (Repeat)
+This is a potential protocol for setting up secure communication between Pis and the Pi Server. It relies on the pis having the servers genuine public key. Pis will need to be secure so that an attacker can't change the pis version of the public key.
+
+Pi -> Server: [N, Ks]{Spub}
+Server -> Pi: [N+1]{Ks} --only server can get Ks, so 
+Pi -> Server: [token || ID]{Ks}
+Server -> Pi: [ACK || NACK || token]{Ks}
+Pi -> Server: [Data]{Ks}
 
 
