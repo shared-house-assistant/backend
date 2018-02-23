@@ -1,0 +1,2 @@
+gcc -o test test.c get_token.c -L /usr/lib/x86_64-linux-gnu/libbsd.so -lbsd
+
